@@ -28,4 +28,4 @@ jobs:
           sudo apt-get install trivy -y
 
       - name: Scan Docker Image
-        run: trivy image lab-17-03
+        run: trivy image --exit-code 1 --severity HIGH,CRITICAL lab-17-03
