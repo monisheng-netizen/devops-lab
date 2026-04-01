@@ -28,4 +28,13 @@ jobs:
           sudo apt-get install trivy -y
 
       - name: Scan Docker Image
-        run: trivy image --exit-code 1 --severity CRITICAL lab-17-03
+        run: trivy image --severity HIGH,CRITICAL -f json -o current.json lab-17-03
+
+      - name: Compare vulnerabilities
+        run: |
+          if diff baseline.json current.json > /dev/null; then
+            echo "No new vulnerabilities ✅"
+          else
+            echo "New vulnerabilities detected ❌"
+            exit 1
+           fi
