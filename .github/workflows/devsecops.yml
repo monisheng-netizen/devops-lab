@@ -30,16 +30,18 @@ jobs:
       - name: Scan Docker Image
         run: trivy image --severity HIGH,CRITICAL -f json -o current.json lab-17-03
 
+      - name: Count Vulnerabilities
+        run: |
+          grep "VulnerabilityID" current.json | wc -l
+
       - name: Compare vulnerabilities
         run: |
           if diff baseline.json current.json > /dev/null; then
             echo "No new vulnerabilities ✅"
           else
             echo "New vulnerabilities detected ❌"
+            cat diff.txt
             exit 1
-           fi
+          fi
 
-      - name : Count Vulnerabilities
-        run: |
-          cat current.json | grep | "VulnerabilityID" | wc -l
 
