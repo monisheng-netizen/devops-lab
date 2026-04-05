@@ -38,3 +38,8 @@ jobs:
             echo "New vulnerabilities detected ❌"
             exit 1
            fi
+
+      - name : Count Vulnerabilities
+        run: |
+          cat current.json | grep | "VulnerabilityID" | wc -l
+
